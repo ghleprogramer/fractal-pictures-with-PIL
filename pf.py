@@ -43,7 +43,6 @@ def FractalSetCreator(Xaxis , iYaxis ,  Func, looplength = 10, threshold = 2):
             return Max
         if FEV > Max:
             Max = FEV
-            return Max
         return Max
 
     for i in Xaxis:

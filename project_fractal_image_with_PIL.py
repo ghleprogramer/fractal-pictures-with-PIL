@@ -2,24 +2,19 @@
 import pf
 from PIL import Image
 
-imageX = 1920 # Can be any resulotion
-imageY = 1080 
+imageX = 1920 # 1280 # 1920 # Can be any resulotion
+imageY = 1080 # 720 # 1080 
 InsideColor = (0, 0, 0)
-Xrange = (-2, .5) # mandelbrot (-2, 0.5), burning ship (-2.5, 1)
-Yrange = (-1.15, 1.15) # mandelbrot (-1.15, 1.15), burning ship (-2, 1)
-LoopLength = 64 # more than 100 is in not necessary
+Xrange = (-2, 0.5) # mandelbrot (-2, 0.5), burning ship (-2.5, 1) (-1.8, -1.7)
+Yrange = (-1.15, 1.15) # mandelbrot (-1.15, 1.15), burning ship (-2, 1) (-0.085, 0.01)
+LoopLength = 100 # more than 100 is in not necessary
 EscapeThreshold = 2 # 2 mandelbrot, 4 or 5 burning ship
-
-# range adjustment
-ratio = imageX / imageY
-ValueRange = abs(Xrange[0] - Xrange[1])
-adjustment = abs(ValueRange - (ValueRange * ratio)) / 2
-adjustedX = (Xrange[0] - adjustment, Xrange[1] + adjustment)
 
 image = Image.new("RGB", (imageX, imageY))
 pixels = image.load()
 
-x = pf.CreatListForRange(adjustedX, imageX)
+adjusted_X = pf.RatioAdjustor(imageX, imageY, Xrange, Yrange)
+x = pf.CreatListForRange(adjusted_X, imageX)
 y = pf.CreatListForRange(Yrange, imageY)
 # Set, MaxEscapeVal = pf.FractalSetCreator(x, y, pf.BurningShip_loop, LoopLength, EscapeThreshold)
 Set, MaxEscapeVal = pf.FractalSetCreator(x, y, pf.MandelBrot_loop, LoopLength, EscapeThreshold)
@@ -36,6 +31,6 @@ for i in range(imageX):
         GrayScaleColor = round(GrayScaleList[Set[i][j]])
         pixels[i, j] = (GrayScaleColor, GrayScaleColor, GrayScaleColor)
 
-image.show()
+# image.show()
 # image.save("xxx.png", "PNG") # for png
 # image.save("xxx.bmp", "BMP")

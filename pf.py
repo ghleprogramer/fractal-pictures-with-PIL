@@ -70,10 +70,18 @@ def CreatListForRange(Range, NumberOfValues):
 
     return List
 
-# x = CreatListForRange((5-, 05), 10)
-# y = CreatListForRange((0, 4), 10)
-# print(x, len(x))
-# set = ComplexFractalSetCreator(x, y, ship_loop, threshold = 5)
-# file = open("output.txt", "w")
-# file.write(str(set))
-# file.close()
+def RatioAdjustor(imgx, imgy, rangex, rangey):
+    """ takes image x and y ints,
+    and range x and y tuleps or lists,
+    returns adjusted version of x so that the image and
+    the cordenates ratios are the same """
+
+    image_ratio = imgx / imgy
+    Xrange_val = abs(rangex[0] - rangex[1])
+    Yrange_val = abs(rangey[0] - rangey[1])
+    range_ratio = Xrange_val / Yrange_val
+    adjustment_ratio = image_ratio - range_ratio
+    # kind of proud of my self for comming up with this equation for range adjustment
+    Xadjustment = Xrange_val / range_ratio * adjustment_ratio
+    adjusted_X = (rangex[0] - Xadjustment/2, rangex[1] + Xadjustment/2)
+    return adjusted_X
